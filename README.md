@@ -1,13 +1,9 @@
-# accesos-web-ubuntu
+# Gestión de accesos directos a aplicaciones web en Ubuntu con Brave
 Playbook para gestionar accesos directos a aplicaciones web en Ubuntu usando Brave.
 
-# Playbook: Gestión de accesos directos a aplicaciones web en Ubuntu con Brave
-
-## З Objetivo
+## Objetivo
 
 Este manual técnico tiene como propósito documentar el proceso para crear, personalizar y mantener accesos directos (`.desktop`) a aplicaciones web (PWA) en Ubuntu, utilizando el navegador Brave. Está orientado a usuarios técnicos que deseen integrar sus aplicaciones web al entorno gráfico de forma limpia, segura y funcional.
-
----
 
 ##  Estructura recomendada
 
@@ -64,84 +60,30 @@ StartupWMClass=Brave-browser
 Reemplaza usuario por tu nombre de usuario real.
 
 #### Categorías aceptadas en archivos .desktop
-A continuación te presento las más comunes y recomendadas, agrupadas por tipo de aplicación:
+A continuación se presentan las categorias más comunes y recomendadas, agrupadas por tipo de aplicación:
+* Aplicaciones de sistema: System;Settings;Utility;FileTools;FileManager;TerminalEmulator;
+* Internet y comunicación: Network;;WebBrowser;Email;InstantMessaging;Chat;News;
+* Educación y ciencia: Education;Science;Math;Dictionary;
+* Multimedia: Audio;Video;Graphics;Photography;Music;Player;Recorder;
+* Desarrollo: Development;IDE;Debugger;Building;Profiling;RevisionControl;
+* Oficina y productividad: Office;WordProcessor;Spreadsheet;Presentation;Calendar;ContactManagement;
+* Juegos: Game;ActionGame;AdventureGame;ArcadeGame;BoardGame;CardGame;
 
- Aplicaciones de sistema
+**Ejemplo práctico**
 
-System
-Settings
-Utility
-FileTools
-FileManager
-TerminalEmulator
-
- Internet y comunicación
-
-Network
-WebBrowser
-Email
-InstantMessaging
-Chat
-News
-
-Educación y ciencia
-
-Education
-Science
-Math
-Dictionary
-
- Multimedia
-
-Audio
-Video
-Graphics
-Photography
-Music
-Player
-Recorder
-
- Desarrollo
-
-Development
-IDE
-Debugger
-Building
-Profiling
-RevisionControl
-
- Oficina y productividad
-
-Office
-WordProcessor
-Spreadsheet
-Presentation
-Calendar
-ContactManagement
-
- Juegos
-
-Game
-ActionGame
-AdventureGame
-ArcadeGame
-BoardGame
-CardGame
-
-З Ejemplo práctico
 Para una aplicación como ChatGPT, podrías usar:
 ```bash
 Categories=Network;ArtificialIntelligence;
 ```
 
-Aunque ArtificialIntelligence no es una categoría estándar, puedes incluirla como personalizada. Las categorías estándar deben ir primero para asegurar compatibilidad.
+Aunque ```ArtificialIntelligence``` no es una categoría estándar, puedes incluirla como personalizada. Las categorías estándar deben ir primero para asegurar compatibilidad.
 
-Buenas prácticas
+**Buenas prácticas**
 
-Usa mínimo una categoría estándar reconocida por freedesktop.
-Puedes añadir categorías personalizadas, pero no serán interpretadas por todos los entornos.
-Separa las categorías con punto y coma ; y no uses espacios.
-No pongas una categoría vacía ni termines con punto y coma innecesario.
+* Usa mínimo una categoría estándar reconocida por freedesktop.
+* Puedes añadir categorías personalizadas, pero no serán interpretadas por todos los entornos.
+* Separa las categorías con punto y coma ; y no uses espacios.
+* No pongas una categoría vacía ni termines con punto y coma innecesario.
 
 ### 4. Asignar permisos de ejecución
 
@@ -155,22 +97,22 @@ chmod +x ~/.local/share/applications/nombre_app.desktop
 update-desktop-database ~/.local/share/applications/
 ```
 
-И Verificación
+**Verificación**
 
-El acceso debe aparecer en el men煤 de aplicaciones.
-Al hacer clic, se abrirá Brave en modo ventana independiente.
-El icono debe mostrarse correctamente.
+* El acceso debe aparecer en el menù de aplicaciones.
+* Al hacer clic, se abrirá Brave en modo ventana independiente.
+* El icono debe mostrarse correctamente.
 
+**Gestión de accesos Brave instalados como PWA (Opcional)**
 
-洜锔?Gestión de accesos Brave instalados como PWA
-Listar accesos generados automáticamente
+1. Listar accesos generados automáticamente
 
 ```bash
 ls ~/Escritorio/brave-*.desktop
 ```
 
-Extraer App IDs desde los accesos
-El --app-id es un identificador 煤nico que Brave asigna a cada aplicación web instalada como PWA. Este ID permite lanzar la aplicación en una ventana independiente, reutilizando su configuración, cookies y estado.
+2. Extraer App IDs desde los accesos
+El --app-id es un identificador único que Brave asigna a cada aplicación web instalada como PWA. Este ID permite lanzar la aplicación en una ventana independiente, reutilizando su configuración, cookies y estado.
 Cuando instalas una PWA desde Brave, se genera un archivo .desktop en tu Escritorio con una línea como esta:
 
 ```bash
@@ -179,13 +121,13 @@ Exec=/snap/brave/567/opt/brave.com/brave/brave-browser --profile-directory=Defau
 
 El valor de --app-id= es el identificador que necesitas.
 
-Opción 1: Extraer todos los App IDs desde los accesos en el Escritorio
+**Opción 1:** Extraer todos los App IDs desde los accesos en el Escritorio
 
 ```bash
 grep -hoP 'app-id=\K\S+' ~/Escritorio/brave-*.desktop
 ```
 
-Opción 2: Ver App ID junto con el nombre del acceso
+**Opción 2:** Ver App ID junto con el nombre del acceso
 
 ```bash
 grep -h 'Exec=' ~/Escritorio/brave-*.desktop | awk -F '--app-id=' '{print $2}' | while read id; do
@@ -194,25 +136,20 @@ grep -h 'Exec=' ~/Escritorio/brave-*.desktop | awk -F '--app-id=' '{print $2}' |
 done
 ```
 
-Buenas prácticas
+**Buenas prácticas**
 
-Usar nombres claros y consistentes para los accesos.
-Mantener iconos actualizados y en formato .png.
-Evitar rutas absolutas de Snap (/snap/brave/...) por posibles cambios tras actualizaciones.
-Documentar los accesos en un archivo README.md si se publica en GitHub.
-Validar que el comando brave esté disponible en el sistema (which brave).
+* Usar nombres claros y consistentes para los accesos.
+* Mantener iconos actualizados y en formato .png.
+* Evitar rutas absolutas de Snap (/snap/brave/...) por posibles cambios tras actualizaciones.
+* Validar que el comando brave esté disponible en el sistema (which brave).
 
+**Recursos adicionales**
 
- Recursos adicionales
+* brave://apps/
+* https://icons8.com
+* https://www.flaticon.com
+* https://imagemagick.org
 
-brave://apps/
-https://icons8.com
-https://www.flaticon.com
-https://imagemagick.org
+_Licencia_
 
-
-Autor
-Este playbook fue elaborado para facilitar la integración de aplicaciones web al entorno gráfico de Ubuntu, promoviendo buenas prácticas de administración en sistemas Linux.
-
- Licencia
 Este documento puede ser reutilizado bajo la licencia https://opensource.org/licenses/MIT.
